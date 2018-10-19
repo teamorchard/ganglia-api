@@ -69,8 +69,7 @@ core.setup(
 	maintainer='Orchard Systems',
 	maintainer_email='admin@orchardsystems.com',
 	url='https://github.com/teamorchard/ganglia-api',
-	packages=['ganglia_api'],
-	python_requires='=2.7',
+	packages=['ganglia'],
 	cmdclass={
 		'set_version': set_version,
 	},
