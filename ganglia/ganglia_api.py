@@ -27,7 +27,7 @@ from tornado.options import define, options
 
 import settings
 
-__version__ = '2.0.0'
+from ganglia_api.version import version
 
 define("port", default=8080, help="run on the given port", type=int)
 
@@ -417,7 +417,7 @@ class ApiHandler(tornado.web.RequestHandler):
 
 
 def main():
-    logger.info("Starting up Ganglia metric API v%s", __version__)
+    logger.info("Starting up Ganglia metric API v%s", version)
 
     # Write pid file if not already running
     if os.path.isfile(settings.PIDFILE):
