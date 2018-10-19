@@ -27,7 +27,7 @@ from tornado.options import define, options
 
 import settings
 
-from ganglia_api.version import version
+from ganglia.version import version
 
 define("port", default=8080, help="run on the given port", type=int)
 
