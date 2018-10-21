@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/bin/env python2
 # coding: utf-8
 
 from __future__ import print_function
@@ -70,6 +70,11 @@ core.setup(
 	maintainer_email='admin@orchardsystems.com',
 	url='https://github.com/teamorchard/ganglia-api',
 	packages=['ganglia'],
+	entry_points={
+		'console_scripts': [
+			'ganglia = ganglia.__main__:main'
+		]
+	},
 	cmdclass={
 		'set_version': set_version,
 	},
