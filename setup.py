@@ -6,24 +6,21 @@ from __future__ import print_function
 
 import re
 import sys
+import subprocess
+import pkg_resources
+
 from distutils import core, log
+
+from setuptools import setup, find_packages
+from setuptools.command.sdist import sdist
 
 import os
 import io
 
 
-__version__ = os.getenv('VERSION', default=os.getenv('PVR', default='9999'))
+__version__ = os.getenv('VERSION', default=os.getenv('PVR'))
 
 cwd = os.getcwd()
-
-# establish the eprefix, initially set so eprefixify can
-# set it on install
-EPREFIX = "@GENTOO_PORTAGE_EPREFIX@"
-
-# check and set it if it wasn't
-if "GENTOO_PORTAGE_EPREFIX" in EPREFIX:
-    EPREFIX = ''
-
 
 # Python files that need `version = ""` subbed, relative to this dir:
 python_scripts = [os.path.join(cwd, path) for path in (
@@ -60,7 +57,7 @@ class set_version(core.Command):
 		sub(python_scripts, python_re)
 
 
-core.setup(
+setup(
 	name='ganglia_api',
 	version=__version__,
 	description='API layer that exposes ganglia data in a RESTful JSON manner',
