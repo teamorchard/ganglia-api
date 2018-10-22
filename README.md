@@ -4,7 +4,7 @@ Ganglia API v2
 [![GitHub](https://img.shields.io/github/license/teamorchard/ganglia_api.svg)](https://github.com/teamorchard/ganglia_api)
 [![GitHub version](https://badge.fury.io/gh/teamorchard%2Fganglia_api.svg)](https://badge.fury.io/gh/teamorchard%2Fganglia_api)
 [![Build Status](https://travis-ci.org/teamorchard/ganglia_api.svg?branch=master)](https://travis-ci.org/teamorchard/ganglia_api)
-[![Ebert](https://ebertapp.io/github/teamorchard/ganglia_api.svg)](https://ebertapp.io/github/teamorchard/ganglia_api)
+[![Code Climate](https://codeclimate.com/github/teamorchard/ganglia_api/badges/gpa.svg)](https://codeclimate.com/github/teamorchard/ganglia_api)
 [![Issues](https://img.shields.io/github/issues/teamorchard/ganglia_api.svg)](https://github.com/teamorchard/ganglia_api/issues?q=is:issue+is:open)
 [![Pull Requests](https://img.shields.io/github/issues-pr/teamorchard/ganglia_api.svg)](https://github.com/teamorchard/ganglia_api/issues?q=is:open+is:pr)
 
