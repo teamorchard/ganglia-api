@@ -114,7 +114,7 @@ class ApiMetric:
 
     def __str__(self):
         return "%s %s %s %s %s %s" % (
-        self.environment, self.grid.name, self.cluster.name, self.host.name, self.group, self.name)
+                self.environment, self.grid.name, self.cluster.name, self.host.name, self.group, self.name)
 
 
 class Metric(Elem, ApiMetric):
@@ -151,7 +151,8 @@ class Metric(Elem, ApiMetric):
                   "metric": original_metric_name}
         url = '%s%s/metrics?' % (settings.API_SERVER, settings.BASE_URL)
         for (k, v) in params.items():
-            if v is not None: url += "&%s=%s" % (k, quote(v))
+            if v is not None:
+                url += "&%s=%s" % (k, quote(v))
         self.data_url = url
 
         params = {"c": self.cluster.name,
@@ -164,12 +165,13 @@ class Metric(Elem, ApiMetric):
                   "ti": self.title}
         url = '%sgraph.php?' % self.grid.authority
         for (k, v) in params.items():
-            if v is not None: url += "&%s=%s" % (k, quote(v))
+            if v is not None:
+                url += "&%s=%s" % (k, quote(v))
         self.graph_url = url
 
     def __getattr__(self, name):
         try:
-            if self.metadata.has_key(name.upper()):
+            if name.upper() in self.metadata:
                 return self.metadata[name.upper()]
             else:
                 return Elem.__getattr__(self, name)
@@ -178,6 +180,7 @@ class Metric(Elem, ApiMetric):
 
     def html_dir(self):
         return 'ganglia-' + self.environment + '-' + self.grid.name
+
 
 # Artificial metric generated from the Host
 class HeartbeatMetric(ApiMetric):
@@ -222,7 +225,8 @@ class GangliaGmetad:
             return
 
         try:
-            if send is not None: sock.send(send)
+            if send is not None:
+                sock.send(send)
         except socket.error, e:
             logger.warning('Could not send to %s:%d - %s', host, port, e)
             return
@@ -235,7 +239,8 @@ class GangliaGmetad:
                 logger.warning('Could not receive data from %s:%d - %s', host, port, e)
                 return
 
-            if not data: break
+            if not data:
+                break
             buffer += data.decode("ISO-8859-1")
 
         sock.close()
@@ -398,11 +403,11 @@ class ApiHandler(tornado.web.RequestHandler):
             return len(list) == 0 or value in list
 
         def is_match(metric):
-            return (emptyOrContains(metric_list, metric.name)
-                and emptyOrContains(group_list, metric.group)
-                and emptyOrContains(host_list, metric.host.name)
-                and emptyOrContains(cluster_list, metric.cluster.name)
-                and emptyOrContains(grid, metric.grid.name))
+            return (emptyOrContains(metric_list, metric.name) and
+                    emptyOrContains(group_list, metric.group) and
+                    emptyOrContains(host_list, metric.host.name) and
+                    emptyOrContains(cluster_list, metric.cluster.name) and
+                    emptyOrContains(grid, metric.grid.name))
 
         gmetad_list = ganglia_config.get_gmetad_for(environment)
         metric_dicts = list()
