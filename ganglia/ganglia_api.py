@@ -100,6 +100,10 @@ class ApiMetric:
     @staticmethod
     def is_num(val):
         try:
+            return str(val)
+        except ValueError:
+            pass
+        try:
             return int(val)
         except ValueError:
             pass
