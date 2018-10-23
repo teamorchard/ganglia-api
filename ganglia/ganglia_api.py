@@ -429,6 +429,7 @@ class ApiHandler(tornado.web.RequestHandler):
         }
 
         if settings.JSON:
+            self.set_header("Content-Type", "application/json")
             self.write(json.dumps(response, indent=4, default=jsonDefault))
         else:
             self.write(response)
