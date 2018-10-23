@@ -14,6 +14,7 @@ import socket
 import select
 import datetime
 import time
+import json
 from xml.etree import ElementTree
 from xml.parsers.expat import ExpatError
 from urllib import quote
@@ -399,6 +400,10 @@ class ApiHandler(tornado.web.RequestHandler):
         host_list = self.get_arguments("host")
         cluster_list = self.get_arguments("cluster")
 
+        # slight trick to get pretty JSON below
+        def jsonDefault(object):
+            return object.__dict__
+
         def emptyOrContains(list, value):
             return len(list) == 0 or value in list
 
@@ -422,7 +427,11 @@ class ApiHandler(tornado.web.RequestHandler):
             "total": len(metric_dicts),
             "time": "%.3f" % (time.time() - start)
         }
-        self.write(response)
+
+        if settings.JSON:
+            self.write(json.dumps(response, indent=4, default=jsonDefault))
+        else:
+            self.write(response)
 
 
 def main():
