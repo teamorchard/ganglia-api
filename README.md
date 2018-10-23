@@ -111,8 +111,8 @@ The following is some example output:
         "total": 1
     }
 
-Debugging
----------
+Troubleshooting
+---------------
 
 The following commands assume the real web server (in this case apache) is
 properly configured to proxy for ganglia_api (on localhost).  Only port 443
