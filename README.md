@@ -107,6 +107,12 @@ The following is some example output:
 Debugging
 ---------
 
+The following commands assume the real web server (in this case apache) is
+properly configured to proxy for ganglia_api (on localhost).  Only port 443
+for the webserver is publicly accessible, and digest auth is required. The
+web server is also the same host running the top-level gmetad process for
+at least one ganglia cluster.
+
 For checking proper integration, you need to have a working gmetad where
 you installed ganglia_api.  The tools you will need are:
  - a telnet client for getting xml output from gmetad
@@ -135,6 +141,8 @@ from a remote machine using the public hostname:
 ```
 curl -o ganglia-dump.json -n --digest --header "Accept:application/json" https://myserver.mydomain.com/ganglia/api/v2/metrics?&environment=all&cluster=MyCluster&host=myhost.mydomain.com&grid=MyGrid&metric=load_one
 ```
+
+Substitute your hostnames, etc.
 
 Assuming your filename is the same as shown above, make the output human-readable:
 
