@@ -104,6 +104,48 @@ The following is some example output:
         "total": 1
     }
 
+Debugging
+---------
+
+For checking proper integration, you need to have a working gmetad where
+you installed ganglia_api.  The tools you will need are:
+ - a telnet client for getting xml output from gmetad
+ - curl for getting json output from ganglia_api
+ - python-simplejson for making the json output readable
+ - a .netrc file for curl to auth against the web server
+
+First get some xml metric data from gmetad to verify json values:
+
+```
+ $ telnet localhost 8651 > gmetad_dump.xml
+```
+
+Substitute your port numbers if needed (don't use the interactive port).
+
+Next check ganglia_api directly on localhost:
+
+```
+ $ curl -n --digest --header "Accept:application/json" http://127.0.0.1/ganglia/api/v2/metrics?&environment=all&cluster=MyCluster&host=myhost.mydomain.com&grid=MyGrid&metric=load_one
+```
+
+Substitute your values for grid, cluster, etc.  Add ``-o ganglia-dump.json``
+to capture output to a file.  If localhost is working, try the same thing
+from a remote machine using the public hostname:
+
+```
+curl -o ganglia-dump.json -n --digest --header "Accept:application/json" https://myserver.mydomain.com/ganglia/api/v2/metrics?&environment=all&cluster=MyCluster&host=myhost.mydomain.com&grid=MyGrid&metric=load_one
+```
+
+Assuming your filename is the same as shown above, make the output human-readable:
+
+```
+python -m json.tool ganglia-dump.json > ganglia-dump-pretty.json
+```
+
+Now you can view both files in an editor or use grep to find the values of
+interest.
+
+
 License
 -------
 
