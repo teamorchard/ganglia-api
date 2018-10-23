@@ -111,8 +111,8 @@ The following is some example output:
         "total": 1
     }
 
-Debugging
----------
+Troubleshooting
+---------------
 
 The following commands assume the real web server (in this case apache) is
 properly configured to proxy for ganglia_api (on localhost).  Only port 443
@@ -124,8 +124,11 @@ For checking proper integration, you need to have a working gmetad where
 you installed ganglia_api.  The tools you will need are:
  - a telnet client for getting xml output from gmetad
  - curl for getting json output from ganglia_api
- - python-simplejson for making the json output readable
  - a .netrc file for curl to auth against the web server
+
+If you have "JSON = True" in settings.py, then you should not need to manually
+process the dump file as shown below (you can also remove the ``--header``
+argument from the curl commands below).
 
 First get some xml metric data from gmetad to verify json values:
 

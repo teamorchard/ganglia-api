@@ -7,3 +7,5 @@ BASE_URL = '/ganglia/api/v2'
 
 LOGFILE = '/var/log/ganglia-api.log'
 PIDFILE = '/var/run/ganglia-api.pid'
+
+JSON = True   # where true is pretty and formmated
