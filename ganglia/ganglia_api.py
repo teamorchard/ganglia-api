@@ -74,7 +74,7 @@ class ApiMetric:
                   'description': self.desc,
                   'sum': self.sum,
                   'num': self.num,
-                  'value': ApiMetric.is_num(self.val),
+                  'value': ApiMetric.is_num(self.val, self.type),
                   'units': units,
                   'type': type,
                   'sampleTime': datetime.datetime.fromtimestamp(
@@ -98,7 +98,11 @@ class ApiMetric:
         return 'undefined', units
 
     @staticmethod
-    def is_num(val):
+    def is_num(val, type):
+        try:
+            return str(val)
+        except ValueError:
+            pass
         try:
             return int(val)
         except ValueError:
