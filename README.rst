@@ -1,12 +1,29 @@
 Ganglia API v2
 ==============
 
-[![GitHub](https://img.shields.io/github/license/teamorchard/ganglia_api.svg)](https://github.com/teamorchard/ganglia_api)
-[![GitHub version](https://badge.fury.io/gh/teamorchard%2Fganglia_api.svg)](https://badge.fury.io/gh/teamorchard%2Fganglia_api)
-[![Build Status](https://travis-ci.org/teamorchard/ganglia_api.svg?branch=master)](https://travis-ci.org/teamorchard/ganglia_api)
-[![Code Climate](https://codeclimate.com/github/teamorchard/ganglia_api/badges/gpa.svg)](https://codeclimate.com/github/teamorchard/ganglia_api)
-[![Issues](https://img.shields.io/github/issues/teamorchard/ganglia_api.svg)](https://github.com/teamorchard/ganglia_api/issues?q=is:issue+is:open)
-[![Pull Requests](https://img.shields.io/github/issues-pr/teamorchard/ganglia_api.svg)](https://github.com/teamorchard/ganglia_api/issues?q=is:open+is:pr)
+.. image:: https://img.shields.io/github/license/teamorchard/ganglia_api.svg
+    :target: https://github.com/teamorchard/ganglia_api
+    :alt: License
+
+.. image:: https://badge.fury.io/gh/teamorchard%2Fganglia_api.svg
+    :target: https://badge.fury.io/gh/teamorchard%2Fganglia_api
+    :alt: Version
+
+.. image:: https://travis-ci.org/teamorchard/ganglia_api.svg?branch=master
+    :target: https://travis-ci.org/teamorchard/ganglia_api
+    :alt: Build Status
+
+.. image:: https://codeclimate.com/github/teamorchard/ganglia_api/badges/gpa.svg
+    :target: https://codeclimate.com/github/teamorchard/ganglia_api
+    :alt: Code Climate
+
+.. image:: https://img.shields.io/github/issues/teamorchard/ganglia_api.svg
+    :target: https://github.com/teamorchard/ganglia_api/issues?q=is:issue+is:open
+    :alt: Issues
+
+.. image:: https://img.shields.io/github/issues-pr/teamorchard/ganglia_api.svg
+    :target: https://github.com/teamorchard/ganglia_api/issues?q=is:open+is:pr
+    :alt: Pull Requests
 
 The Ganglia API is a small standalone python application that takes XML data from
 a number of Ganglia gmetad processes and presents a RESTful JSON API of the most
@@ -35,11 +52,9 @@ being interpreted as the environment.
 
 **Ganglia Gmetad Example Configuration Files**
 
-```
-gmetad-PROD.conf   # => xml_port 8651, interactive_port 8652
-gmetad-STAGE.conf  # => xml_port 8751, interactive_port 8752
-gmetad-DEV.conf    # => xml_port 8851, interactive_port 8852
-```
+  gmetad-PROD.conf   # => xml_port 8651, interactive_port 8652
+  gmetad-STAGE.conf  # => xml_port 8751, interactive_port 8752
+  gmetad-DEV.conf    # => xml_port 8851, interactive_port 8852
 
 We also assume that /var/log/ganglia-api.log is writable and we can create 
 /var/run/ganglia-api.pid to record the PID.
@@ -47,15 +62,19 @@ We also assume that /var/log/ganglia-api.log is writable and we can create
 That being the case you should be able to run the python app on the command line
 and it will listen by default on port 8080. 
 
-### Setup
+Local Setup
+-----------
 
-	virtualenv ve
-	source ve/bin/activate
-	pip install -r requirements.txt
+If you're used to using virtualenv, then setup is easy::
 
-Edit `ganglia_api.py` to import dev_settings rather than settings.
+  $ virtualenv ve
+  $ source ve/bin/activate
+  $ pip install -r requirements.txt
 
-	python ganglia/ganglia_api.py
+Edit `ganglia_api.py` to import dev_settings rather than settings.  Then run
+something like this::
+
+  $ python ganglia/ganglia_api.py
 
 The API should now be running on port 8080.
 
@@ -65,20 +84,24 @@ The API
 There is currently one API endpoint at http://localhost:8080/ganglia/api/v2/metrics
 
 You can filter using the following fields:
- - environment
- - grid
- - cluster
- - host
- - group
- - metric
 
-e.g.
-http://localhost:8080/ganglia/api/v2/metrics?environment=PROD&metric=load_one
+* environment
+* grid
+* cluster
+* host
+* group
+* metric
+
+For example:
+
+  http://localhost:8080/ganglia/api/v2/metrics?environment=PROD&metric=load_one
 
 Which will return you the most recent one minute load values for every host in PROD
 as JSON.
 
 The following is some example output:
+
+.. code-block:: javascript
 
     {
         "metrics": [
@@ -111,8 +134,8 @@ The following is some example output:
         "total": 1
     }
 
-Troubleshooting
----------------
+Manual Testing
+--------------
 
 The following commands assume the real web server (in this case apache) is
 properly configured to proxy for ganglia_api (on localhost).  Only port 443
@@ -122,43 +145,40 @@ at least one ganglia cluster.
 
 For checking proper integration, you need to have a working gmetad where
 you installed ganglia_api.  The tools you will need are:
- - a telnet client for getting xml output from gmetad
- - curl for getting json output from ganglia_api
- - a .netrc file for curl to auth against the web server
+
+* a telnet client for getting xml output from gmetad
+* curl for getting json output from ganglia_api
+* a .netrc file for curl to auth against the web server
 
 If you have "JSON = True" in settings.py, then you should not need to manually
 process the dump file as shown below (you can also remove the ``--header``
 argument from the curl commands below).
 
-First get some xml metric data from gmetad to verify json values:
+First get some xml metric data from gmetad to verify json values::
 
-```
- $ telnet localhost 8651 > gmetad_dump.xml
-```
+  $ telnet localhost 8651 > gmetad_dump.xml
 
 Substitute your port numbers if needed (don't use the interactive port).
 
-Next check ganglia_api directly on localhost:
+Next check ganglia_api directly on localhost::
 
-```
- $ curl -n --digest --header "Accept:application/json" http://127.0.0.1/ganglia/api/v2/metrics?&environment=all&cluster=MyCluster&host=myhost.mydomain.com&grid=MyGrid&metric=load_one
-```
+  $ curl -n --digest --header "Accept:application/json" "http://127.0.0.1/ganglia/api/v2/metrics?&environment=all&cluster=MyCluster&host=myhost.mydomain.com&grid=MyGrid&metric=load_one"
 
 Substitute your values for grid, cluster, etc.  Add ``-o ganglia-dump.json``
 to capture output to a file.  If localhost is working, try the same thing
-from a remote machine using the public hostname:
+from a remote machine using the public hostname::
 
-```
-curl -o ganglia-dump.json -n --digest --header "Accept:application/json" https://myserver.mydomain.com/ganglia/api/v2/metrics?&environment=all&cluster=MyCluster&host=myhost.mydomain.com&grid=MyGrid&metric=load_one
-```
+  $ curl -o ganglia-dump.json -n --digest --header "Accept:application/json" "https://myserver.mydomain.com/ganglia/api/v2/metrics?&environment=all&cluster=MyCluster&host=myhost.mydomain.com&grid=MyGrid&metric=load_one"
 
 Substitute your hostnames, etc.
 
-Assuming your filename is the same as shown above, make the output human-readable:
+.. note:: The default output should be properly formatted JSON with the
+          correct header. The following command should not be necessary
+          unless you set ``JSON = False`` in your settings.
 
-```
-python -m json.tool ganglia-dump.json > ganglia-dump-pretty.json
-```
+Assuming your filename is the same as shown above, make the output human-readable::
+
+  $ python -m json.tool ganglia-dump.json > ganglia-dump-pretty.json
 
 Now you can view both files in an editor or use grep to find the values of
 interest.
