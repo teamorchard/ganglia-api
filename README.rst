@@ -52,6 +52,8 @@ being interpreted as the environment.
 
 **Ganglia Gmetad Example Configuration Files**
 
+::
+
   gmetad-PROD.conf   # => xml_port 8651, interactive_port 8652
   gmetad-STAGE.conf  # => xml_port 8751, interactive_port 8752
   gmetad-DEV.conf    # => xml_port 8851, interactive_port 8852
