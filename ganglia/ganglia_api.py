@@ -53,7 +53,7 @@ class NullElem:
 
 
 class ApiMetric:
-    tag_re = re.compile("\s+")
+    tag_re = re.compile(r'\s+')
 
     def id(self):
         group = self.group if self.group is not None else ""
@@ -316,7 +316,7 @@ class GangliaConfig:
         logger.info("Parsing ganglia configurations")
         result = dict()
         for file in glob.glob(os.path.join(settings.GANGLIA_PATH, 'gmetad*.conf')):
-            m = re.search('gmetad-(\S+).conf', file)
+            m = re.search(r'gmetad-(\S+).conf', file)
             if m:
                 environment = m.group(1)
             else:
@@ -326,10 +326,10 @@ class GangliaConfig:
             interactive_port = 0
             f = open(file).readlines()
             for line in f:
-                m = re.search('xml_port\s+(\d+)', line)
+                m = re.search(r'xml_port\s+(\d+)', line)
                 if m:
                     xml_port = int(m.group(1))
-                m = re.search('interactive_port\s+(\d+)', line)
+                m = re.search(r'interactive_port\s+(\d+)', line)
                 if m:
                     interactive_port = int(m.group(1))
 
