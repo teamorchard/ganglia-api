@@ -111,6 +111,7 @@ class ApiMetric:
         try:
             return float(val)
         except ValueError:
+            logger.warning('Unclassified value, check for validity: %s - %s', val, e)
             return val
 
     def __str__(self):

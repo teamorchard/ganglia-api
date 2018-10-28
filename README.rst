@@ -44,7 +44,7 @@ group or metric name.
 Requirements and assumptions
 ----------------------------
 
-You'll need python 2.7 and tornado (we use 4.3) available to run this server.
+You'll need python 2.7 and tornado (upstream uses 4.3, 5.0 also works) available to run this server.
 
 The code assumes you are on the same server as the gmetad configuration, which is
 stored under /etc/ganglia using filenames of the form `gmetad-*.conf` - the asterisk
