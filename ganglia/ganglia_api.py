@@ -110,7 +110,7 @@ class ApiMetric:
             pass
         try:
             return float(val)
-        except ValueError:
+        except ValueError, e:
             logger.warning('Unclassified value, check for validity: %s - %s', val, e)
             return val
 
